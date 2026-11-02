@@ -1,0 +1,193 @@
+﻿<Window x:Class="BinarySearchTreeLab9.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:BinarySearchTreeLab9.Controls"
+        Title="Реєстр інвентарних номерів"
+        Height="650"
+        Width="850"
+        MinHeight="450"
+        MinWidth="650"
+        Background="#202936"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="WindowBackground" Color="#202936"/>
+        <SolidColorBrush x:Key="PanelBackground" Color="#2B3645"/>
+        <SolidColorBrush x:Key="InputBackground" Color="#364354"/>
+        <SolidColorBrush x:Key="MainText" Color="#EDF2F7"/>
+        <SolidColorBrush x:Key="MutedText" Color="#AAB8C8"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#38B878"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background" Value="#3B495B"/>
+            <Setter Property="Foreground" Value="#EDF2F7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background" Value="#364354"/>
+            <Setter Property="Foreground" Value="#EDF2F7"/>
+            <Setter Property="BorderBrush" Value="#52647A"/>
+            <Setter Property="CaretBrush" Value="#EDF2F7"/>
+            <Setter Property="SelectionBrush" Value="#38B878"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Foreground" Value="#A9E8C6"/>
+            <Setter Property="BorderBrush" Value="#465669"/>
+            <Setter Property="Background" Value="#2B3645"/>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  CanContentScroll="False">
+        <StackPanel Margin="4">
+            <TextBlock Text="РЕЄСТР ІНВЕНТАРНИХ НОМЕРІВ"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="#EDF2F7"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,14"/>
+
+            <GroupBox Header="Додавання номерів">
+                <StackPanel>
+                    <TextBox Text="{Binding NumbersText, UpdateSourceTrigger=PropertyChanged}"
+                             Height="38"/>
+
+                    <WrapPanel>
+                        <Button Content="Додати номери"
+                                Command="{Binding AddCommand}"
+                                Background="#38B878"
+                                Foreground="White"/>
+
+                        <Button Content="Завантажити демонстраційне дерево"
+                                Command="{Binding DemoCommand}"/>
+
+                        <Button Content="Очистити дерево"
+                                Command="{Binding ClearCommand}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Пошук і видалення">
+                <StackPanel>
+                    <DockPanel>
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="180"
+                                 Height="36"
+                                 HorizontalAlignment="Left"/>
+
+                        <Button Content="Знайти"
+                                Command="{Binding FindCommand}"/>
+
+                        <Button Content="Видалити"
+                                Command="{Binding DeleteCommand}"/>
+                    </DockPanel>
+
+                    <TextBlock Text="{Binding Status}"
+                               TextWrapping="Wrap"
+                               Margin="4,8,4,4"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding SearchPath, StringFormat=Переглянуті вузли: {0}}"
+                               TextWrapping="Wrap"
+                               Margin="4"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Статистика дерева">
+                <UniformGrid Columns="5">
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Вузлів"/>
+                        <TextBlock Text="{Binding Count}"
+                                   FontSize="20"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Висота"/>
+                        <TextBlock Text="{Binding Height}"
+                                   FontSize="20"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Мінімум"/>
+                        <TextBlock Text="{Binding MinText}"
+                                   FontSize="18"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Максимум"/>
+                        <TextBlock Text="{Binding MaxText}"
+                                   FontSize="18"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Структура"/>
+                        <TextBlock Text="BST"
+                                   FontSize="18"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </UniformGrid>
+            </GroupBox>
+
+            <GroupBox Header="Структура двійкового дерева">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              Height="180">
+                    <controls:TreeDrawingControl x:Name="TreeDisplay"
+                                                 Width="900"
+                                                 Height="180"/>
+                    
+                </ScrollViewer>
+            </GroupBox>
+
+            <GroupBox Header="Рекурсивні обходи">
+                <StackPanel>
+                    <TextBlock Text="Preorder:"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding PreorderText}"
+                               TextWrapping="Wrap"
+                               Margin="3,0,3,8"/>
+
+                    <TextBlock Text="Inorder:"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding InorderText}"
+                               TextWrapping="Wrap"
+                               Margin="3,0,3,8"/>
+
+                    <TextBlock Text="Postorder:"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding PostorderText}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Додаткове завдання: порівняння висоти">
+                <StackPanel>
+                    <Button Content="Порівняти висоту для 20 номерів"
+                            Command="{Binding CompareCommand}"
+                            HorizontalAlignment="Left"
+                            Background="#38B878"
+                            Foreground="White"/>
+
+                    <TextBlock Text="{Binding ComparisonText}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
